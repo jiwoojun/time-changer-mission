@@ -116,7 +116,7 @@ mySprite = sprites.create(img`
     `, SpriteKind.Player)
 let tilemap1 = tiles.createMap(tilemap`level1`)
 let tilemap2 = tiles.createMap(tilemap`level2`)
-let tilemap3 = tiles.createMap(tilemap`level7`)
+let tilemap3 = tiles.createMap(tilemap`level16`)
 tiles.loadMap(tilemap1)
 mySprite.ay = 200
 scene.cameraFollowSprite(mySprite)
