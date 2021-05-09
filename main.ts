@@ -1,15 +1,6 @@
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
-        mySprite.vy += -100
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, tiles.util.door0, function (sprite, location) {
-    tiles.loadConnectedMap(ConnectionKind.Door1)
-    tiles.placeOnRandomTile(mySprite, tiles.util.door1)
-    scene.cameraFollowSprite(mySprite)
-})
-function generateYoungPlayer () {
-    mySprite2 = sprites.create(img`
+function timeTravelBack (location_x: number, location_y: number) {
+    tiles.loadMap(tilemap3)
+    mySprite.setImage(img`
         ..........fffffff.............
         .........fdddddddf............
         ........fdddddddddf...........
@@ -40,13 +31,27 @@ function generateYoungPlayer () {
         ...........f...f..............
         ..........fff.fff.............
         ..........fff.fff.............
-        `, SpriteKind.Player)
-    scene.cameraFollowSprite(mySprite2)
-    mySprite2.ay = 200
-    controller.moveSprite(mySprite2, 100, 0)
-    tiles.placeOnRandomTile(mySprite2, assets.tile`myTile2`)
+        `)
 }
-let mySprite2: Sprite = null
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (currentPlayerIsOld == true) {
+        timeTravelBack(mySprite.x, mySprite.y)
+    } else {
+    	
+    }
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
+        mySprite.vy += -100
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, tiles.util.door0, function (sprite, location) {
+    tiles.loadConnectedMap(ConnectionKind.Door1)
+    tiles.placeOnRandomTile(mySprite, tiles.util.door1)
+    scene.cameraFollowSprite(mySprite)
+})
+let currentPlayerIsOld = false
+let tilemap3: tiles.WorldMap = null
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
     .......................f......f.f...............................
@@ -116,12 +121,13 @@ mySprite = sprites.create(img`
     `, SpriteKind.Player)
 let tilemap1 = tiles.createMap(tilemap`level1`)
 let tilemap2 = tiles.createMap(tilemap`level2`)
-let tilemap3 = tiles.createMap(tilemap`level16`)
+tilemap3 = tiles.createMap(tilemap`level16`)
 tiles.loadMap(tilemap1)
 mySprite.ay = 200
 scene.cameraFollowSprite(mySprite)
 controller.moveSprite(mySprite, 100, 0)
 tiles.placeOnRandomTile(mySprite, assets.tile`myTile3`)
+currentPlayerIsOld = true
 tiles.coverAllTiles(assets.tile`myTile2`, assets.tile`myTile`)
 tiles.coverAllTiles(assets.tile`myTile3`, assets.tile`myTile`)
 tiles.coverAllTiles(tiles.util.door0, assets.tile`myTile1`)
